@@ -2,6 +2,7 @@ from datetime import date
 from twilio.rest import TwilioRestClient
 import twitter_request
 import json
+import time
 
 # To find these visit https://www.twilio.com/user/account
 
@@ -16,19 +17,20 @@ def main():
 	AUTH_TOKEN = data["AUTH_TOKEN"]
 	PHONE_NUMBER = data["PHONE_NUMBER"]
 	TUAN_ID= '#T'
-
 	client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-	messages = client.messages.list()
-	Message_to_post_twitter = []
+	while True:
+		time.sleep(10)
+		messages = client.messages.list():
+		Message_to_post_twitter = []
 
-	for message in messages:
-	    if message.body[:2].upper() == TUAN_ID:
-	    	Message_to_post_twitter.append(message.body[2:].lstrip())
-	    message.delete()
+		for message in messages:
+		    if message.body[:2].upper() == TUAN_ID:
+		    	Message_to_post_twitter.append(message.body[2:].lstrip())
+		    message.delete()
 
-	for each in Message_to_post_twitter:
-		twitter_request.POST_TO_TWITTER(each)
-		print "{0} posted.".format(each)
+		for each in Message_to_post_twitter:
+			twitter_request.POST_TO_TWITTER(each)
+			print "{0} posted.".format(each)
 
 
 if __name__ == "__main__":
