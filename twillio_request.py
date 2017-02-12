@@ -20,7 +20,7 @@ def main():
 	client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
 	while True:
 		time.sleep(10)
-		messages = client.messages.list():
+		messages = client.messages.list()
 		Message_to_post_twitter = []
 
 		for message in messages:
@@ -29,8 +29,12 @@ def main():
 		    message.delete()
 
 		for each in Message_to_post_twitter:
-			twitter_request.POST_TO_TWITTER(each)
-			print "{0} posted.".format(each)
+			try:
+				twitter_request.POST_TO_TWITTER(each)
+				print "{0} posted.".format(each)
+			except:
+				print each,"passed."
+				pass
 
 
 if __name__ == "__main__":
