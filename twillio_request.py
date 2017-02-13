@@ -35,7 +35,7 @@ def main():
 		log_file = open(Log_file_path,'a')
 		for each in Message_to_post_twitter:
 			try:
-				twitter_request.POST_TO_TWITTER(each[:140])
+				twitter_request.POST_TO_TWITTER(each[:140].upper())
 				print "{0} posted.".format(each)
 				log_file.write("{0} posted.\n".format(each))
 			except:
