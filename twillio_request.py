@@ -9,6 +9,7 @@ import time
 TUAN_ID= '#T'
 def main():
 	Key_file_path="/root/venv0/key.json"
+	Log_file_path="/root/venv0/twitterbot/posts.log"
 
 	with open(Key_file_path) as json_data:
 		data = json.load(json_data)
@@ -26,16 +27,21 @@ def main():
 		for message in messages:
 		    if message.body[:2].upper() == TUAN_ID:
 		    	Message_to_post_twitter.append(message.body[2:].lstrip())
-		    message.delete()
+		    try:
+		    	message.delete()
+		    except:
+		    	pass
 
+		log_file = open(Log_file_path,'a')
 		for each in Message_to_post_twitter:
 			try:
-				twitter_request.POST_TO_TWITTER(each)
+				twitter_request.POST_TO_TWITTER(each[:140])
 				print "{0} posted.".format(each)
+				log_file.write("{0} posted.\n".format(each))
 			except:
 				print each,"passed."
+				log_file.write("{0} posted.\n".format(each))
 				pass
-
 
 if __name__ == "__main__":
 	main()
